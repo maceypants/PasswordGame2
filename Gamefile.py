@@ -3,16 +3,15 @@ from tkinter import messagebox
 import datetime
 import sympy
 
-# Updated rule 20: A consonant cannot be located next to a number.
+
 def consonant_next_to_number(p):
-    for i, c in enumerate(p[:-1]):  # Loop through the password except the last character
-        # Check if current character is a consonant and the next character is a number or vice versa
+    for i, c in enumerate(p[:-1]): 
         if (c.lower() in "bcdfghjklmnpqrstvwxyz" and p[i + 1].isdigit()) or \
            (c.isdigit() and p[i + 1].lower() in "bcdfghjklmnpqrstvwxyz"):
             return False
     return True
 
-# requirements with updated rule 20
+
 requirements = [
     ("Minimum length of 10 characters", lambda p: len(p) >= 10),
     ("Password must contain an Upper case letter", lambda p: any(c.isupper() for c in p)),
@@ -36,7 +35,7 @@ requirements = [
     ("Consonant cannot be located next to a number.", consonant_next_to_number)
 ]
 
-# main window
+# mainwindow
 root = tk.Tk()
 root.title("Password Requirements Game")
 
@@ -46,11 +45,11 @@ password_entry.pack()
 current_requirement_label = tk.Label(root, text="Start typing your password...", fg="red")
 current_requirement_label.pack()
 
-# passed password requirements
+# passed requirements
 passed_requirements_list = tk.Listbox(root, width=100, height=20) 
 passed_requirements_list.pack()
 
-# Submit button greyed out 
+# Submit button (greyed out)
 submit_button = tk.Button(root, text="Submit Password", state=tk.DISABLED)
 submit_button.pack()
 
@@ -74,7 +73,7 @@ def check_requirements(event):
     else:
         current_requirement_label.config(text="All requirements met!", fg="green") 
     
-    # Submit button green
+    # Submit button (green)
     submit_button.config(state=tk.NORMAL if not current_requirement else tk.DISABLED)
 
 password_entry.bind("<KeyRelease>", check_requirements)

@@ -3,14 +3,9 @@ from tkinter import messagebox
 import datetime
 import sympy
 
-
-def consonant_next_to_number(p):
-    for i, c in enumerate(p[:-1]): 
-        if (c.lower() in "bcdfghjklmnpqrstvwxyz" and p[i + 1].isdigit()) or \
-           (c.isdigit() and p[i + 1].lower() in "bcdfghjklmnpqrstvwxyz"):
-            return False
-    return True
-
+def spice_girls_included(p):
+    spice_girls = ["Melanie Brown", "Melanie Chisholm", "Emma Bunton", "Geri Halliwell", "Victoria Beckham"]
+    return any(spice_girl in p for spice_girl in spice_girls)
 
 requirements = [
     ("Minimum length of 10 characters", lambda p: len(p) >= 10),
@@ -29,13 +24,12 @@ requirements = [
     ("Password must contain the Value for x when, 3x+2y-7 = 4x - y + 5", lambda p: "3y-12" in p),
     ("Password must not contain the letter 'S'", lambda p: "S" not in p.upper()),
     ("Password must contain the Hex code for RGB(255, 0, 68)", lambda p: "#FF0044" in p),
-    ("Password must contain the English translation for 'Пароль' ", lambda p: "password" in p),
-    ("Password must contain an expression representing a quantum state in Dirac notation. It must include the state symbol, coefficients as fractions or square roots, the basic states, and any complex numbers. Use only alphanumeric characters and standard mathematical symbols written out as words.", lambda p: "Psi1Sqrt20PlusI1Sqrt21" in p),
+    ("Password must include the 9th prime number at the end of your password.", lambda p: p.endswith(str(sympy.prime(9)))),
+    ("Password must contain a leap year from the 1817-1831 range.", lambda p: any(year in p for year in ["1820", "1824", "1828"])),
     ("Password must include the current prime number of the month.", lambda p: str(sympy.prime(datetime.datetime.now().month)) in p),
-    ("Consonant cannot be located next to a number.", consonant_next_to_number)
+    ("Password must include one of the spice girls.", spice_girls_included)
 ]
 
-# mainwindow
 root = tk.Tk()
 root.title("Password Requirements Game")
 
@@ -45,11 +39,9 @@ password_entry.pack()
 current_requirement_label = tk.Label(root, text="Start typing your password...", fg="red")
 current_requirement_label.pack()
 
-# passed requirements
 passed_requirements_list = tk.Listbox(root, width=100, height=20) 
 passed_requirements_list.pack()
 
-# Submit button (greyed out)
 submit_button = tk.Button(root, text="Submit Password", state=tk.DISABLED)
 submit_button.pack()
 
@@ -63,7 +55,6 @@ def check_requirements(event):
         elif current_requirement is None:
             current_requirement = text
     
-    # passed requirements
     passed_requirements_list.delete(0, tk.END)
     for item in passed:
         passed_requirements_list.insert(tk.END, item)
@@ -73,16 +64,13 @@ def check_requirements(event):
     else:
         current_requirement_label.config(text="All requirements met!", fg="green") 
     
-    # Submit button (green)
     submit_button.config(state=tk.NORMAL if not current_requirement else tk.DISABLED)
 
 password_entry.bind("<KeyRelease>", check_requirements)
 
-# Submit password
 def submit_password():
     messagebox.showinfo("Password Submitted", "Your password has been accepted!")
 
 submit_button.config(command=submit_password)
 
-# Run
 root.mainloop()

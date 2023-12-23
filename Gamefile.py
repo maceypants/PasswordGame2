@@ -16,7 +16,7 @@ requirements = [
     ("Password must contain the Morse code for 'hello' ", lambda p: ".... . .-.. .-.. ---" in p),
     ("Password must contain the element symbols for Gold, Platinum, and Sodium ", lambda p: all(x in p for x in ["Au", "Pt", "Na"])),
     ("Password must contain 3 even numbers", lambda p: sum(1 for c in p if c.isdigit() and int(c) % 2 == 0) >= 3),
-    ("Password must add up to 42", lambda p: sum(int(c) for c in p if c.isdigit()) == 42),
+    ("Password must add up to 80", lambda p: sum(int(c) for c in p if c.isdigit()) == 80),
     ("Password must start with a vowel", lambda p: p[0].lower() in "aeiou"),
     ("Password must contain a month of the year", lambda p: any(month in p for month in ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"])),
     ("Password must contain 3 odd numbers, descending", lambda p: any(p[i:i+3] in "97531" for i in range(len(p)-2))),

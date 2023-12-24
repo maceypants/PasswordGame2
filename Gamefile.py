@@ -36,7 +36,7 @@ root.title("Password Requirements Game")
 password_entry = tk.Text(root, height=10, width=100)
 password_entry.pack()
 
-current_requirement_label = tk.Label(root, text="Start typing your password...", fg="red")
+current_requirement_label = tk.Label(root, text="Start typing your password...", fg="red", font=("Helvetica", 12, "bold"))
 current_requirement_label.pack()
 
 passed_requirements_list = tk.Listbox(root, width=100, height=20) 
@@ -51,7 +51,7 @@ def check_requirements(event):
     current_requirement = None
     for text, check in requirements:
         if check(password):
-            passed.append(text)
+            passed.append("✓ " + text)
         elif current_requirement is None:
             current_requirement = text
     
@@ -60,7 +60,7 @@ def check_requirements(event):
         passed_requirements_list.insert(tk.END, item)
     
     if current_requirement:
-        current_requirement_label.config(text=current_requirement, fg="red") 
+        current_requirement_label.config(text=f"Current Requirement: {current_requirement}", fg="red") 
     else:
         current_requirement_label.config(text="All requirements met!", fg="green") 
     

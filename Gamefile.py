@@ -8,6 +8,7 @@ class PasswordChecker:
     def __init__(self):
         self.spice_girls = ["Melanie Brown", "Melanie Chisholm", "Emma Bunton", "Geri Halliwell", "Victoria Beckham"]
         self.requirements = self.define_requirements()
+
     def define_requirements(self):
         return [
             ("Minimum length of 10 characters", lambda p: len(p) >= 10),
@@ -31,8 +32,10 @@ class PasswordChecker:
             ("Password must include the current prime number of the month.", lambda p: str(sympy.prime(datetime.datetime.now().month)) in p),
             ("Password must include one of the spice girls.", self.spice_girls_included)
         ]
+
     def spice_girls_included(self, p):
         return any(spice_girl in p for spice_girl in self.spice_girls)
+
     def check_requirements(self, p):
         passed = []
         current_requirement = None
@@ -45,10 +48,175 @@ class PasswordChecker:
             except Exception as e:
                 print(f"Error checking requirement '{text}': {e}")
         return passed, current_requirement
+
+class SimpleCalculator:
+    def __init__(self, parent):
+        self.entry = tk.Entry(parent)
+        self.entry.grid(row=0, column=0, columnspan=4)
+        buttons = [
+            ('5', 1), ('8', 1), ('3', 1), ('/', 1),
+            ('0', 2), ('7', 2), ('+', 2), ('*', 2),
+            ('1', 3), ('2', 3), ('9', 3), ('-', 3),
+            ('4', 4), ('C', 4), ('=', 4), ('6', 4),
+        ]
+        for (text, row) in buttons:
+            tk.Button(parent, text=text, command=lambda text=text: self.on_button_click(text)).grid(row=row, column=buttons.index((text, row)) % 4)
+
+    def on_button_click(self, char):
+        if char == 'C':
+            self.entry.delete(0, tk.END)
+        elif char == '=':
+            try:
+                self.entry.insert(tk.END, f" = {eval(self.entry.get())}")
+            except Exception:
+                self.entry.insert(tk.END, " (error)")
+        else:
+            self.entry.insert(tk.END, char)
+
+class PeriodicTableDisplay:
+    def __init__(self, parent):
+        elements = [
+            ("Hydrogen", "H", 1.008), ("Helium", "He", 4.0026),  # Add more elements as desired
+            # ...
+        ]
+        self.listbox = tk.Listbox(parent)
+        for el in elements:
+            self.listbox.insert(tk.END, f"{el[0]} ({el[1]}) - {el[2]}")
+        self.listbox.grid(row=0, column=0)
+
+class SpiceGirlIdentifier:
+    def __init__(self, parent):
+        people = [
+            "Adele (not a spice girl)", "Alex Morgan (not a spice girl)",
+    "Alicia Keys (not a spice girl)", "Amanda Seyfried (not a spice girl)",
+    "Amy Adams (not a spice girl)", "Amy Poehler (not a spice girl)",
+    "Angelina Jolie (not a spice girl)", "Anne Hathaway (not a spice girl)",
+    "Ariana Grande (not a spice girl)", "Ashley Olsen (not a spice girl)",
+    "Audrey Hepburn (not a spice girl)", "Ava Gardner (not a spice girl)",
+    "Beyoncé Knowles (not a spice girl)", "Billie Holiday (not a spice girl)",
+    "Blake Lively (not a spice girl)", "Brie Larson (not a spice girl)",
+    "Britney Spears (not a spice girl)", "Cameron Diaz (not a spice girl)",
+    "Cara Delevingne (not a spice girl)", "Cate Blanchett (not a spice girl)",
+    "Catherine Zeta-Jones (not a spice girl)", "Charlize Theron (not a spice girl)",
+    "Cher (not a spice girl)", "Christina Aguilera (not a spice girl)",
+    "Cindy Crawford (not a spice girl)", "Claire Danes (not a spice girl)",
+    "Daisy Ridley (not a spice girl)","Geri Halliwell (a spice girl)", 
+    "Dakota Fanning (not a spice girl)",
+    "Dame Judi Dench (not a spice girl)", "Demi Lovato (not a spice girl)",
+    "Diana Ross (not a spice girl)", "Diane Keaton (not a spice girl)",
+    "Drew Barrymore (not a spice girl)", "Ellen DeGeneres (not a spice girl)",
+    "Ellen Page (not a spice girl)", "Elle Fanning (not a spice girl)",
+    "Ellie Goulding (not a spice girl)", "Emilia Clarke (not a spice girl)",
+    "Emily Blunt (not a spice girl)", "Emma Stone (not a spice girl)",
+    "Emma Watson (not a spice girl)", "Eva Green (not a spice girl)",
+    "Eva Longoria (not a spice girl)", "Eva Mendes (not a spice girl)",
+    "Felicity Jones (not a spice girl)", "Florence Welch (not a spice girl)",
+    "Gal Gadot (not a spice girl)", "Gigi Hadid (not a spice girl)",
+    "Gillian Anderson (not a spice girl)", "Gisele Bündchen (not a spice girl)",
+    "Grace Kelly (not a spice girl)", "Greta Gerwig (not a spice girl)",
+    "Gwen Stefani (not a spice girl)", "Halle Berry (not a spice girl)",
+    "Hayley Atwell (not a spice girl)", "Heidi Klum (not a spice girl)",
+    "Helena Bonham Carter (not a spice girl)", "Hilary Duff (not a spice girl)",
+    "Idina Menzel (not a spice girl)", "Irina Shayk (not a spice girl)",
+    "Jada Pinkett Smith (not a spice girl)", "Janelle Monáe (not a spice girl)",
+    "January Jones (not a spice girl)", "Emma Bunton (a spice girl)", 
+    "Jennifer Aniston (not a spice girl)",
+    "Jennifer Garner (not a spice girl)", "Jennifer Hudson (not a spice girl)",
+    "Jennifer Lawrence (not a spice girl)", "Jennifer Lopez (not a spice girl)",
+    "Jenny Slate (not a spice girl)", "Jessica Alba (not a spice girl)",
+    "Jessica Biel (not a spice girl)", "Jessica Chastain (not a spice girl)",
+    "Jessica Lange (not a spice girl)", "Jodie Foster (not a spice girl)",
+    "Julia Roberts (not a spice girl)", "Julianne Moore (not a spice girl)",
+    "Julie Andrews (not a spice girl)", "Juliette Binoche (not a spice girl)",
+    "Kaley Cuoco (not a spice girl)", "Karen Gillan (not a spice girl)",
+    "Kate Beckinsale (not a spice girl)", "Kate Hudson (not a spice girl)",
+    "Kate Middleton (not a spice girl)", "Kate Moss (not a spice girl)",
+    "Kate Winslet (not a spice girl)", "Katharine Hepburn (not a spice girl)",
+    "Katherine Langford (not a spice girl)", "Kathy Bates (not a spice girl)",
+    "Katie Holmes (not a spice girl)", "Katy Perry (not a spice girl)",
+    "Keira Knightley (not a spice girl)", "Kendall Jenner (not a spice girl)",
+    "Kerry Washington (not a spice girl)", "Kim Kardashian (not a spice girl)",
+    "Kirsten Dunst (not a spice girl)", "Kristen Bell (not a spice girl)",
+    "Kristen Stewart (not a spice girl)","Victoria Beckham (a spice girl)",
+    "Lady Gaga (not a spice girl)",
+    "Lana Del Rey (not a spice girl)", "Laura Dern (not a spice girl)",
+    "Lauren Bacall (not a spice girl)", "Lea Michele (not a spice girl)",
+    "Lena Headey (not a spice girl)", "Lena Waithe (not a spice girl)",
+    "Lindsay Lohan (not a spice girl)", "Liv Tyler (not a spice girl)",
+    "Lorde (not a spice girl)", "Lupita Nyong'o (not a spice girl)",
+    "Maggie Smith (not a spice girl)", "Margot Robbie (not a spice girl)",
+    "Maria Sharapova (not a spice girl)", "Marilyn Monroe (not a spice girl)",
+    "Marion Cotillard (not a spice girl)", "Mariska Hargitay (not a spice girl)",
+    "Maya Rudolph (not a spice girl)", "Meg Ryan (not a spice girl)",
+    "Megan Fox (not a spice girl)", "Meryl Streep (not a spice girl)",
+    "Mila Kunis (not a spice girl)", "Miley Cyrus (not a spice girl)",
+    "Mindy Kaling (not a spice girl)", "Miranda Kerr (not a spice girl)",
+    "Missy Elliott (not a spice girl)","Melanie Brown (a spice girl)"
+    "Naomi Campbell (not a spice girl)",
+    "Naomi Watts (not a spice girl)", "Natalie Dormer (not a spice girl)",
+    "Natalie Portman (not a spice girl)", "Nicole Kidman (not a spice girl)",
+    "Nina Dobrev (not a spice girl)", "Octavia Spencer (not a spice girl)",
+    "Olivia Colman (not a spice girl)", "Olivia Munn (not a spice girl)",
+    "Olivia Wilde (not a spice girl)", "Oprah Winfrey (not a spice girl)",
+    "Pamela Anderson (not a spice girl)", "Paris Hilton (not a spice girl)",
+    "Penélope Cruz (not a spice girl)", "Pink (not a spice girl)",
+    "Priyanka Chopra (not a spice girl)", "Queen Latifah (not a spice girl)",
+    "Quvenzhané Wallis (not a spice girl)", "Rachel McAdams (not a spice girl)",
+    "Rebel Wilson (not a spice girl)", "Reese Witherspoon (not a spice girl)",
+    "Rihanna (not a spice girl)", "Rita Ora (not a spice girl)",
+    "Rosamund Pike (not a spice girl)", "Ruby Rose (not a spice girl)",
+    "Sandra Bullock (not a spice girl)", "Saoirse Ronan (not a spice girl)",
+    "Sarah Jessica Parker (not a spice girl)", "Sarah Paulson (not a spice girl)",
+    "Scarlett Johansson (not a spice girl)", "Selena Gomez (not a spice girl)",
+    "Shailene Woodley (not a spice girl)", "Shakira (not a spice girl)",
+    "Sharon Stone (not a spice girl)", "Sigourney Weaver (not a spice girl)",
+    "Sofía Vergara (not a spice girl)","Melanie Chisholm (a spice girl)",
+    "Sophia Loren (not a spice girl)",
+    "Sophie Turner (not a spice girl)", "Stevie Nicks (not a spice girl)",
+    "Susan Sarandon (not a spice girl)", "Taylor Swift (not a spice girl)",
+    "Tessa Thompson (not a spice girl)", "Tina Fey (not a spice girl)",
+    "Uma Thurman (not a spice girl)", "Vanessa Hudgens (not a spice girl)",
+    "Viola Davis (not a spice girl)", "Whitney Houston (not a spice girl)",
+    "Whoopi Goldberg (not a spice girl)", "Winona Ryder (not a spice girl)",
+    "Yara Shahidi (not a spice girl)", "Zoe Saldana (not a spice girl)",
+    "Zoë Kravitz (not a spice girl)"  
+            
+        ]
+        self.listbox = tk.Listbox(parent)
+        for person in people:
+            self.listbox.insert(tk.END, person)
+        self.listbox.grid(row=0, column=0)
+
+class MorseCodeTranslator:
+    def __init__(self, parent):
+        self.text_to_translate = tk.Entry(parent)
+        self.text_to_translate.grid(row=0, column=0)
+        self.translated_text = tk.Entry(parent)
+        self.translated_text.grid(row=1, column=0)
+        self.translate_button = tk.Button(parent, text="Translate to Morse", command=self.translate)
+        self.translate_button.grid(row=2, column=0)
+
+    def translate(self):
+        text = self.text_to_translate.get().upper()
+        morse_dict = {  
+            'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.',
+            'F': '..-.', 'G': '--.', 'H': '....', 'I': '..', 'J': '.---',
+            'K': '-.-', 'L': '.-..', 'M': '--', 'N': '-.', 'O': '---',
+            'P': '.--.', 'Q': '--.-', 'R': '.-.', 'S': '...', 'T': '-',
+            'U': '..-', 'V': '...-', 'W': '.--', 'X': '-..-', 'Y': '-.--',
+            'Z': '--..', '0': '-----', '1': '.----', '2': '..---', '3': '...--',
+            '4': '....-', '5': '.....', '6': '-....', '7': '--...', '8': '---..',
+            '9': '----.'
+        }
+        translated = ' '.join(morse_dict.get(char, char) for char in text)
+        self.translated_text.delete(0, tk.END)
+        self.translated_text.insert(0, translated)
+
 class PasswordApp:
     def __init__(self, root):
         self.checker = PasswordChecker()
         self.setup_gui(root)
+
     def setup_gui(self, root):
         self.password_entry = tk.Text(root, height=10, width=80)
         self.password_entry.grid(row=0, column=0, columnspan=2, padx=10, pady=10)
@@ -61,6 +229,22 @@ class PasswordApp:
         self.submit_button = tk.Button(root, text="Submit Password", state=tk.DISABLED, command=self.submit_password)
         self.submit_button.grid(row=4, column=0, columnspan=2, padx=10, pady=10)
         self.password_entry.bind("<KeyRelease>", self.on_key_release)
+
+        # Helper areas
+        tk.Label(root, text="Helpers", fg="blue", font=("Helvetica", 16)).grid(row=0, column=3, columnspan=2)
+        calc_frame = tk.LabelFrame(root, text="Calculator")
+        calc_frame.grid(row=1, column=3, padx=10, pady=10)
+        SimpleCalculator(calc_frame)
+        periodic_table_frame = tk.LabelFrame(root, text="Periodic Table")
+        periodic_table_frame.grid(row=2, column=3, padx=10, pady=10)
+        PeriodicTableDisplay(periodic_table_frame)
+        spice_girls_frame = tk.LabelFrame(root, text="Spice Girl Identifier")
+        spice_girls_frame.grid(row=3, column=3, padx=10, pady=10)
+        SpiceGirlIdentifier(spice_girls_frame)
+        morse_code_frame = tk.LabelFrame(root, text="Morse Code Translator")
+        morse_code_frame.grid(row=4, column=3, padx=10, pady=10)
+        MorseCodeTranslator(morse_code_frame)
+
     def on_key_release(self, event):
         password = self.password_entry.get("1.0", "end-1c")
         passed, current_requirement = self.checker.check_requirements(password)
@@ -71,10 +255,12 @@ class PasswordApp:
         else:
             self.current_requirement_label.config(text="All requirements met!", fg="green")
         self.submit_button.config(state=tk.NORMAL if not current_requirement else tk.DISABLED)
+
     def update_progress(self, passed_count):
         total_requirements = len(self.checker.requirements)
         percentage_met = (passed_count / total_requirements) * 100
         self.progress['value'] = percentage_met
+
     def update_requirements_list(self, passed, current_requirement):
         self.requirements_list.delete(0, tk.END)
         for text, _ in self.checker.requirements:
@@ -87,11 +273,13 @@ class PasswordApp:
             else:
                 self.requirements_list.insert(tk.END, f"✗ {text}")
                 self.requirements_list.itemconfig(tk.END, {'fg': 'red'})
+
     def submit_password(self):
         messagebox.showinfo("Password Submitted", "Your password has been accepted!")
+
 if __name__ == "__main__":
     root = tk.Tk()
     root.title("Password Requirements Game")
     app = PasswordApp(root)
-    root.geometry('800x600')  
+    root.geometry('1200x800')  
     root.mainloop()

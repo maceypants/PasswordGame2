@@ -11,7 +11,7 @@ class PasswordChecker:
 
     def define_requirements(self):
         return [
-            ("Minimum length of 10 characters", lambda p: len(p) >= 10),
+          ("Minimum length of 10 characters", lambda p: len(p) >= 10),
             ("Password must contain an Upper case letter", lambda p: any(c.isupper() for c in p)),
             ("Password must contain a Lower case letter", lambda p: any(c.islower() for c in p)),
             ("Password must contain a number", lambda p: any(c.isdigit() for c in p)),
@@ -50,9 +50,10 @@ class PasswordChecker:
         return passed, current_requirement
 
 class SimpleCalculator:
-    def __init__(self, parent):
+    def __init__(self, parent, password_entry):
         self.entry = tk.Entry(parent)
         self.entry.grid(row=0, column=0, columnspan=4)
+        self.password_entry = password_entry 
         buttons = [
             ('5', 1), ('8', 1), ('3', 1), ('/', 1),
             ('0', 2), ('7', 2), ('+', 2), ('*', 2),
@@ -67,16 +68,20 @@ class SimpleCalculator:
             self.entry.delete(0, tk.END)
         elif char == '=':
             try:
-                self.entry.insert(tk.END, f" = {eval(self.entry.get())}")
+                result = str(eval(self.entry.get()))
+                self.entry.delete(0, tk.END)
+                self.entry.insert(tk.END, result)
+                self.password_entry.insert(tk.END, result)  # Append results
             except Exception:
                 self.entry.insert(tk.END, " (error)")
         else:
             self.entry.insert(tk.END, char)
+            self.password_entry.insert(tk.END, char)  # Append character 
 
 class PeriodicTableDisplay:
     def __init__(self, parent):
         elements = [
-            ("Hydrogen", "H", 1.008), ("Helium", "He", 4.0026),
+             ("Hydrogen", "H", 1.008), ("Helium", "He", 4.0026),
     ("Lithium", "Li", 6.94), ("Beryllium", "Be", 9.0122),
     ("Boron", "B", 10.81), ("Carbon", "C", 12.011),
     ("Nitrogen", "N", 14.007), ("Oxygen", "O", 15.999),
@@ -144,7 +149,7 @@ class PeriodicTableDisplay:
 class SpiceGirlIdentifier:
     def __init__(self, parent):
         people = [
-           "Adele (not a spice girl)", "Alex Morgan (not a spice girl)",
+               "Adele (not a spice girl)", "Alex Morgan (not a spice girl)",
     "Alicia Keys (not a spice girl)", "Amanda Seyfried (not a spice girl)",
     "Amy Adams (not a spice girl)", "Amy Poehler (not a spice girl)",
     "Angelina Jolie (not a spice girl)", "Anne Hathaway (not a spice girl)",
@@ -254,8 +259,8 @@ class MorseCodeTranslator:
 
     def translate(self):
         text = self.text_to_translate.get().upper()
-        morse_dict = {  
-            'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.',
+        morse_dict = {
+              'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.',
             'F': '..-.', 'G': '--.', 'H': '....', 'I': '..', 'J': '.---',
             'K': '-.-', 'L': '.-..', 'M': '--', 'N': '-.', 'O': '---',
             'P': '.--.', 'Q': '--.-', 'R': '.-.', 'S': '...', 'T': '-',
@@ -282,7 +287,7 @@ class PasswordApp:
         self.progress.grid(row=2, column=0, columnspan=2, padx=10, pady=10)
         self.requirements_list = tk.Listbox(root, width=100, height=10)
         self.requirements_list.grid(row=3, column=0, columnspan=2, padx=10, pady=10)
-        self.submit_button = tk.Button(root, text="Submit Password", command=self.submit_password)
+        self.submit_button = tk.Button(root, text="Submit Password", state=tk.DISABLED, command=self.submit_password)
         self.submit_button.grid(row=4, column=0, columnspan=2, padx=10, pady=10)
         self.password_entry.bind("<KeyRelease>", self.on_key_release)
 
@@ -290,7 +295,7 @@ class PasswordApp:
         tk.Label(root, text="Helpers", fg="blue", font=("Helvetica", 16)).grid(row=0, column=3, columnspan=2)
         calc_frame = tk.LabelFrame(root, text="Calculator")
         calc_frame.grid(row=1, column=3, padx=10, pady=10)
-        SimpleCalculator(calc_frame)
+        SimpleCalculator(calc_frame, self.password_entry)  # Pass the password_entry to the calculator
         periodic_table_frame = tk.LabelFrame(root, text="Periodic Table")
         periodic_table_frame.grid(row=2, column=3, padx=10, pady=10)
         PeriodicTableDisplay(periodic_table_frame)
@@ -310,6 +315,7 @@ class PasswordApp:
             self.current_requirement_label.config(text=f"Next Requirement: {current_requirement}", fg="red")
         else:
             self.current_requirement_label.config(text="All requirements met!", fg="green")
+        self.submit_button.config(state=tk.NORMAL if not current_requirement else tk.DISABLED)
 
     def update_progress(self, passed_count):
         total_requirements = len(self.checker.requirements)
@@ -330,13 +336,7 @@ class PasswordApp:
                 self.requirements_list.itemconfig(tk.END, {'fg': 'red'})
 
     def submit_password(self):
-        password = self.password_entry.get("1.0", "end-1c")
-        passed, current_requirement = self.checker.check_requirements(password)
-        if len(passed) == len(self.checker.requirements):
-            messagebox.showinfo("Success", "Success! Password was created.")
-        else:
-            messagebox.showerror("Failure", "Sorry, that password does not work")
-            self.password_entry.delete('1.0', tk.END)
+        messagebox.showinfo("Password Submitted", "Your password has been accepted!")
 
 if __name__ == "__main__":
     root = tk.Tk()

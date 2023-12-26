@@ -248,6 +248,8 @@ class SpiceGirlIdentifier:
             self.listbox.insert(tk.END, person)
         self.listbox.grid(row=0, column=0)
 
+import random
+
 class MorseCodeTranslator:
     def __init__(self, parent):
         self.text_to_translate = tk.Entry(parent)
@@ -269,9 +271,15 @@ class MorseCodeTranslator:
             '4': '....-', '5': '.....', '6': '-....', '7': '--...', '8': '---..',
             '9': '----.'
         }
-        translated = ' '.join(morse_dict.get(char, char) for char in text)
+        translated = ''.join(morse_dict.get(char, char) + self.random_delimiter() for char in text)
+        translated = translated[:-len(self.random_delimiter())] if translated else translated
         self.translated_text.delete(0, tk.END)
         self.translated_text.insert(0, translated)
+
+    def random_delimiter(self):
+        chars = ";:,"
+        return ''.join(random.choice(chars) for _ in range(random.randint(1, 3)))
+
 
 class PasswordApp:
     def __init__(self, root):

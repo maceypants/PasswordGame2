@@ -250,6 +250,9 @@ class SpiceGirlIdentifier:
 
 import random
 
+import random
+from tkinter import messagebox
+
 class MorseCodeTranslator:
     def __init__(self, parent):
         self.text_to_translate = tk.Entry(parent)
@@ -258,8 +261,13 @@ class MorseCodeTranslator:
         self.translated_text.grid(row=1, column=0)
         self.translate_button = tk.Button(parent, text="Translate to Morse", command=self.translate)
         self.translate_button.grid(row=2, column=0)
+        self.first_time = True  # track message to see if first time
 
     def translate(self):
+        if self.first_time:
+            messagebox.showinfo("Notice", "I am still learning how to code 😔, there will be delimiters in this translation, use cautiously")
+            self.first_time = False  # set flag to False after showing message
+
         text = self.text_to_translate.get().upper()
         morse_dict = {
               'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.',

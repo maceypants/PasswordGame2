@@ -144,7 +144,7 @@ class PeriodicTableDisplay:
 class SpiceGirlIdentifier:
     def __init__(self, parent):
         people = [
-            "Adele (not a spice girl)", "Alex Morgan (not a spice girl)",
+           "Adele (not a spice girl)", "Alex Morgan (not a spice girl)",
     "Alicia Keys (not a spice girl)", "Amanda Seyfried (not a spice girl)",
     "Amy Adams (not a spice girl)", "Amy Poehler (not a spice girl)",
     "Angelina Jolie (not a spice girl)", "Anne Hathaway (not a spice girl)",
@@ -237,7 +237,6 @@ class SpiceGirlIdentifier:
     "Whoopi Goldberg (not a spice girl)", "Winona Ryder (not a spice girl)",
     "Yara Shahidi (not a spice girl)", "Zoe Saldana (not a spice girl)",
     "Zoë Kravitz (not a spice girl)"  
-            
         ]
         self.listbox = tk.Listbox(parent)
         for person in people:
@@ -283,7 +282,7 @@ class PasswordApp:
         self.progress.grid(row=2, column=0, columnspan=2, padx=10, pady=10)
         self.requirements_list = tk.Listbox(root, width=100, height=10)
         self.requirements_list.grid(row=3, column=0, columnspan=2, padx=10, pady=10)
-        self.submit_button = tk.Button(root, text="Submit Password", state=tk.DISABLED, command=self.submit_password)
+        self.submit_button = tk.Button(root, text="Submit Password", command=self.submit_password)
         self.submit_button.grid(row=4, column=0, columnspan=2, padx=10, pady=10)
         self.password_entry.bind("<KeyRelease>", self.on_key_release)
 
@@ -311,7 +310,6 @@ class PasswordApp:
             self.current_requirement_label.config(text=f"Next Requirement: {current_requirement}", fg="red")
         else:
             self.current_requirement_label.config(text="All requirements met!", fg="green")
-        self.submit_button.config(state=tk.NORMAL if not current_requirement else tk.DISABLED)
 
     def update_progress(self, passed_count):
         total_requirements = len(self.checker.requirements)
@@ -332,7 +330,13 @@ class PasswordApp:
                 self.requirements_list.itemconfig(tk.END, {'fg': 'red'})
 
     def submit_password(self):
-        messagebox.showinfo("Password Submitted", "Your password has been accepted!")
+        password = self.password_entry.get("1.0", "end-1c")
+        passed, current_requirement = self.checker.check_requirements(password)
+        if len(passed) == len(self.checker.requirements):
+            messagebox.showinfo("Success", "Success! Password was created.")
+        else:
+            messagebox.showerror("Failure", "Sorry, that password does not work")
+            self.password_entry.delete('1.0', tk.END)
 
 if __name__ == "__main__":
     root = tk.Tk()

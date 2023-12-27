@@ -3,6 +3,7 @@ from tkinter import ttk
 from tkinter import messagebox
 import datetime
 import sympy
+import random
 
 class PasswordChecker:
     def __init__(self):
@@ -12,25 +13,25 @@ class PasswordChecker:
     def define_requirements(self):
         return [
           ("Minimum length of 10 characters", lambda p: len(p) >= 10),
-            ("Password must contain an Upper case letter", lambda p: any(c.isupper() for c in p)),
-            ("Password must contain a Lower case letter", lambda p: any(c.islower() for c in p)),
-            ("Password must contain a number", lambda p: any(c.isdigit() for c in p)),
-            ("Password must contain a Special character", lambda p: any(c in "!@#$%^&*()_+" for c in p)),
-            ("Password must contain the Morse code for 'hello'", lambda p: ".... . .-.. .-.. ---" in p),
-            ("Password must contain the element symbols for Gold, Platinum, and Sodium", lambda p: all(x in p for x in ["Au", "Pt", "Na"])),
-            ("Password must contain 3 even numbers", lambda p: sum(1 for c in p if c.isdigit() and int(c) % 2 == 0) >= 3),
-            ("Password must add up to 80", lambda p: sum(int(c) for c in p if c.isdigit()) == 80),
-            ("Password must start with a vowel", lambda p: p[0].lower() in "aeiou"),
-            ("Password must contain a month of the year", lambda p: any(month in p for month in ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"])),
-            ("Password must contain 3 odd numbers, descending", lambda p: any(p[i:i+3] in "97531" for i in range(len(p)-2))),
-            ("Password must contain the Greek symbol delta", lambda p: "Δ" in p),
-            ("Password must contain the Value for x when, 3x+2y-7 = 4x - y + 5", lambda p: "3y-12" in p),
-            ("Password must not contain the letter 'S'", lambda p: "S" not in p.upper()),
-            ("Password must contain the Hex code for RGB(255, 0, 68)", lambda p: "#FF0044" in p),
-            ("Password must include the 9th prime number at the end of your password.", lambda p: p.endswith(str(sympy.prime(9)))),
-            ("Password must contain a leap year from the 1817-1831 range.", lambda p: any(year in p for year in ["1820", "1824", "1828"])),
-            ("Password must include the current prime number of the month.", lambda p: str(sympy.prime(datetime.datetime.now().month)) in p),
-            ("Password must include one of the spice girls.", self.spice_girls_included)
+          ("Password must contain an Upper case letter", lambda p: any(c.isupper() for c in p)),
+          ("Password must contain a Lower case letter", lambda p: any(c.islower() for c in p)),
+          ("Password must contain a number", lambda p: any(c.isdigit() for c in p)),
+          ("Password must contain a Special character", lambda p: any(c in "!@#$%^&*()_+" for c in p)),
+          ("Password must contain the Morse code for 'hello'", lambda p: ".... . .-.. .-.. ---" in p),
+          ("Password must contain the element symbols for Gold, Platinum, and Sodium", lambda p: all(x in p for x in ["Au", "Pt", "Na"])),
+          ("Password must contain 3 even numbers", lambda p: sum(1 for c in p if c.isdigit() and int(c) % 2 == 0) >= 3),
+          ("Password must add up to 80", lambda p: sum(int(c) for c in p if c.isdigit()) == 80),
+          ("Password must start with a vowel", lambda p: p[0].lower() in "aeiou"),
+          ("Password must contain a month of the year", lambda p: any(month in p for month in ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"])),
+          ("Password must contain 3 odd numbers, descending", lambda p: any(p[i:i+3] in "97531" for i in range(len(p)-2))),
+          ("Password must contain the Greek symbol delta", lambda p: "Δ" in p),
+          ("Password must contain the Value for x when, 3x+2y-7 = 4x - y + 5", lambda p: "3y-12" in p),
+          ("Password must not contain the letter 'S'", lambda p: "S" not in p.upper()),
+          ("Password must contain the Hex code for RGB(255, 0, 68)", lambda p: "#FF0044" in p),
+          ("Password must include the 9th prime number at the end of your password.", lambda p: p.endswith(str(sympy.prime(9)))),
+          ("Password must contain a leap year from the 1817-1831 range.", lambda p: any(year in p for year in ["1820", "1824", "1828"])),
+          ("Password must include the current prime number of the month.", lambda p: str(sympy.prime(datetime.datetime.now().month)) in p),
+          ("Password must include one of the spice girls.", self.spice_girls_included)
         ]
 
     def spice_girls_included(self, p):
@@ -81,7 +82,7 @@ class SimpleCalculator:
 class PeriodicTableDisplay:
     def __init__(self, parent):
         elements = [
-             ("Hydrogen", "H", 1.008), ("Helium", "He", 4.0026),
+              ("Hydrogen", "H", 1.008), ("Helium", "He", 4.0026),
     ("Lithium", "Li", 6.94), ("Beryllium", "Be", 9.0122),
     ("Boron", "B", 10.81), ("Carbon", "C", 12.011),
     ("Nitrogen", "N", 14.007), ("Oxygen", "O", 15.999),
@@ -149,7 +150,7 @@ class PeriodicTableDisplay:
 class SpiceGirlIdentifier:
     def __init__(self, parent):
         people = [
-               "Adele (not a spice girl)", "Alex Morgan (not a spice girl)",
+            "Adele (not a spice girl)", "Alex Morgan (not a spice girl)",
     "Alicia Keys (not a spice girl)", "Amanda Seyfried (not a spice girl)",
     "Amy Adams (not a spice girl)", "Amy Poehler (not a spice girl)",
     "Angelina Jolie (not a spice girl)", "Anne Hathaway (not a spice girl)",
@@ -248,11 +249,6 @@ class SpiceGirlIdentifier:
             self.listbox.insert(tk.END, person)
         self.listbox.grid(row=0, column=0)
 
-import random
-
-import random
-from tkinter import messagebox
-
 class MorseCodeTranslator:
     def __init__(self, parent):
         self.text_to_translate = tk.Entry(parent)
@@ -270,7 +266,7 @@ class MorseCodeTranslator:
 
         text = self.text_to_translate.get().upper()
         morse_dict = {
-              'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.',
+             'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.',
             'F': '..-.', 'G': '--.', 'H': '....', 'I': '..', 'J': '.---',
             'K': '-.-', 'L': '.-..', 'M': '--', 'N': '-.', 'O': '---',
             'P': '.--.', 'Q': '--.-', 'R': '.-.', 'S': '...', 'T': '-',
@@ -288,45 +284,80 @@ class MorseCodeTranslator:
         chars = ";:,"
         return ''.join(random.choice(chars) for _ in range(random.randint(1, 3)))
 
-
 class PasswordApp:
     def __init__(self, root):
         self.checker = PasswordChecker()
         self.setup_gui(root)
+        self.question_button = None  # question mark button
+
+    def create_tooltip_window(self):
+        tooltip_window = tk.Toplevel()
+        tooltip_window.title("Requirement Tip")
+
+        message = "The requirement 'Password must include the current prime number of the month', means you must include the prime number representing the current month."
+        tk.Label(tooltip_window, text=message, wraplength=300).pack(padx=10, pady=10)
+
+        return_button = tk.Button(tooltip_window, text="Return to the game", command=tooltip_window.destroy)
+        return_button.pack(pady=10)
+
+        tooltip_window.grab_set()
 
     def setup_gui(self, root):
-        self.password_entry = tk.Text(root, height=10, width=80)
-        self.password_entry.grid(row=0, column=0, columnspan=2, padx=10, pady=10)
-        self.current_requirement_label = tk.Label(root, text="Start typing your password...", fg="red", font=("Helvetica", 12))
-        self.current_requirement_label.grid(row=1, column=0, columnspan=2, padx=10)
-        self.progress = ttk.Progressbar(root, length=400, mode='determinate')
-        self.progress.grid(row=2, column=0, columnspan=2, padx=10, pady=10)
-        self.requirements_list = tk.Listbox(root, width=100, height=10)
-        self.requirements_list.grid(row=3, column=0, columnspan=2, padx=10, pady=10)
-        self.submit_button = tk.Button(root, text="Submit Password", state=tk.DISABLED, command=self.submit_password)
-        self.submit_button.grid(row=4, column=0, columnspan=2, padx=10, pady=10)
+        #  mainframe
+        main_frame = tk.Frame(root)
+        main_frame.grid(row=0, column=0, sticky='nsew')
+
+        # Helpers frame
+        helpers_frame = tk.Frame(root)
+        helpers_frame.grid(row=0, column=1, sticky='nsew')
+
+        root.grid_columnconfigure(0, weight=1)
+        root.grid_columnconfigure(1, weight=1)
+        root.grid_rowconfigure(0, weight=1)
+
+        self.password_entry = tk.Text(main_frame, height=10, width=50)
+        self.password_entry.grid(row=0, column=0, padx=10, pady=10)
+        self.current_requirement_label = tk.Label(main_frame, text="Start typing your password...", fg="red", font=("Helvetica", 12))
+        self.current_requirement_label.grid(row=1, column=0, padx=10, sticky='w')
+
+        # Placeholder for question mark
+        self.question_mark_placeholder = tk.Label(main_frame, width=2)
+        self.question_mark_placeholder.grid(row=1, column=1, sticky='w')
+
+        self.progress = ttk.Progressbar(main_frame, length=300, mode='determinate')
+        self.progress.grid(row=2, column=0, padx=10, pady=10)
+        self.requirements_list = tk.Listbox(main_frame, width=50, height=10)
+        self.requirements_list.grid(row=3, column=0, padx=10, pady=10)
+
+        self.submit_button = tk.Button(main_frame, text="Submit Password", state=tk.DISABLED, command=self.submit_password)
+        self.submit_button.grid(row=4, column=0, padx=10, pady=10)
         self.password_entry.bind("<KeyRelease>", self.on_key_release)
 
-        # Helper areas
-        tk.Label(root, text="Helpers", fg="blue", font=("Helvetica", 16)).grid(row=0, column=3, columnspan=2)
-        calc_frame = tk.LabelFrame(root, text="Calculator")
-        calc_frame.grid(row=1, column=3, padx=10, pady=10)
-        SimpleCalculator(calc_frame, self.password_entry)  # Pass the password_entry to the calculator
-        periodic_table_frame = tk.LabelFrame(root, text="Periodic Table")
-        periodic_table_frame.grid(row=2, column=3, padx=10, pady=10)
+        # Helpers
+        tk.Label(helpers_frame, text="Helpers", fg="blue", font=("Helvetica", 16)).grid(row=0, column=0, padx=10, pady=10)
+        calc_frame = tk.LabelFrame(helpers_frame, text="Calculator")
+        calc_frame.grid(row=1, column=0, padx=10, pady=10)
+        SimpleCalculator(calc_frame, self.password_entry)
+
+        periodic_table_frame = tk.LabelFrame(helpers_frame, text="Periodic Table")
+        periodic_table_frame.grid(row=2, column=0, padx=10, pady=10)
         PeriodicTableDisplay(periodic_table_frame)
-        spice_girls_frame = tk.LabelFrame(root, text="Spice Girl Identifier")
-        spice_girls_frame.grid(row=3, column=3, padx=10, pady=10)
+
+        spice_girls_frame = tk.LabelFrame(helpers_frame, text="Spice Girl Identifier")
+        spice_girls_frame.grid(row=3, column=0, padx=10, pady=10)
         SpiceGirlIdentifier(spice_girls_frame)
-        morse_code_frame = tk.LabelFrame(root, text="Morse Code Translator")
-        morse_code_frame.grid(row=4, column=3, padx=10, pady=10)
+
+        morse_code_frame = tk.LabelFrame(helpers_frame, text="Morse Code Translator")
+        morse_code_frame.grid(row=4, column=0, padx=10, pady=10)
         MorseCodeTranslator(morse_code_frame)
+
 
     def on_key_release(self, event):
         password = self.password_entry.get("1.0", "end-1c")
         passed, current_requirement = self.checker.check_requirements(password)
         self.update_progress(len(passed))
         self.update_requirements_list(passed, current_requirement)
+        self.update_question_mark(current_requirement)
         if current_requirement:
             self.current_requirement_label.config(text=f"Next Requirement: {current_requirement}", fg="red")
         else:
@@ -351,6 +382,17 @@ class PasswordApp:
                 self.requirements_list.insert(tk.END, f"✗ {text}")
                 self.requirements_list.itemconfig(tk.END, {'fg': 'red'})
 
+    def update_question_mark(self, current_requirement):
+        target_requirement = "Password must include the current prime number of the month."
+        if current_requirement == target_requirement:
+            if not self.question_button:
+                self.question_button = tk.Button(self.question_mark_placeholder, text="?", command=self.create_tooltip_window, padx=0, pady=0)
+                self.question_button.pack(side="left", fill='both', expand=True)
+        else:
+            if self.question_button:
+                self.question_button.destroy()
+                self.question_button = None
+
     def submit_password(self):
         messagebox.showinfo("Password Submitted", "Your password has been accepted!")
 
@@ -358,5 +400,5 @@ if __name__ == "__main__":
     root = tk.Tk()
     root.title("Password Requirements Game")
     app = PasswordApp(root)
-    root.geometry('1200x800')  
+    root.geometry('900x600')
     root.mainloop()

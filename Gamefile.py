@@ -294,7 +294,7 @@ class PasswordApp:
         tooltip_window = tk.Toplevel()
         tooltip_window.title("Requirement Tip")
 
-        message = "The requirement 'Password must include the current prime number of the month', means you must include the prime number representing the current month."
+        message = "The requirement 'Password must include the current prime number of the month', means you must include the current prime number of the month."
         tk.Label(tooltip_window, text=message, wraplength=300).pack(padx=10, pady=10)
 
         return_button = tk.Button(tooltip_window, text="Return to the game", command=tooltip_window.destroy)
